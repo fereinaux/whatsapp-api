@@ -46,6 +46,7 @@
     "multer": "^1.4.5-lts.1",
     "qrcode": "^1.5.4",
     "socket.io": "^4.7.5",
+    "node-cep-correios": "^1.0.6",
     "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^5.0.1",
     "unzipper": "^0.12.3",

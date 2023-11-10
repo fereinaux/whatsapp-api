@@ -1,11 +1,11 @@
 import { ServerOptions } from './types/ServerOptions';
 
 export default {
-  secretKey: 'THISISMYSECURETOKEN',
+  secretKey: 'SysIgrejaToken',
   host: 'http://localhost',
   port: '21465',
-  deviceName: 'WppConnect',
-  poweredBy: 'WPPConnect-Server',
+  deviceName: 'SysIgreja Whatsapp',
+  poweredBy: 'SysIgreja',
   startAllSession: true,
   tokenStoreType: 'file',
   maxListeners: 15,
