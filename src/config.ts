@@ -2,8 +2,8 @@ import { ServerOptions } from './types/ServerOptions';
 
 export default {
   secretKey: 'SysIgrejaToken',
-  host: 'http://localhost',
-  port: '21465',
+  host: 'https://api.iecbeventos.com.br/',
+  port: '3500',
   deviceName: 'SysIgreja Whatsapp',
   poweredBy: 'SysIgreja',
   startAllSession: true,
