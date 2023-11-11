@@ -59,6 +59,8 @@ export default class CreateSessionUtil {
           executablePath:
             'node_modules\\chromium\\lib\\chromium\\chrome-win\\chrome.exe',
           userDataDir: req.serverOptions.customUserDataDir + session,
+          ignoreHTTPSErrors: true,
+          slowMo: 150,
         };
       }
 
@@ -122,6 +124,8 @@ export default class CreateSessionUtil {
           }
         )
       );
+      console.log(teste);
+      const wppClient = await create(teste);
 
       client = clientsArray[session] = Object.assign(wppClient, client);
       await this.start(req, client);
