@@ -126,7 +126,6 @@ export default class CreateSessionUtil {
           }
         )
       );
-      console.log(teste);
       const wppClient = await create(teste);
 
       client = clientsArray[session] = Object.assign(wppClient, client);
