@@ -1,4 +1,4 @@
-FROM node:lts-alpine3.18 as base
+FROM node:buster-slim as base
 WORKDIR /usr/src/wpp-server
 ENV NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package.json ./
@@ -26,7 +26,6 @@ RUN yarn build
 
 FROM base
 WORKDIR /usr/src/wpp-server/
-RUN apk add libc6-compat
 RUN apk add --no-cache chromium
 RUN yarn cache clean
 COPY . .
