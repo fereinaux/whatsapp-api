@@ -72,7 +72,11 @@ export default class CreateSessionUtil {
           req.serverOptions.createOptions,
           {
             session: session,
+<<<<<<< HEAD
             phoneNumber: client.config.phone ?? null,
+=======
+            useChrome: false,
+>>>>>>> 4c7b92d (remove dir)
             deviceName:
               client.config.phone == undefined // bug when using phone code this shouldn't be passed (https://github.com/wppconnect-team/wppconnect-server/issues/1687#issuecomment-2099357874)
                 ? client.config?.deviceName ||
