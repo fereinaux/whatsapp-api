@@ -26,6 +26,7 @@ RUN yarn build
 
 FROM base
 WORKDIR /usr/src/wpp-server/
+RUN apk add libc6-compat
 RUN apk add --no-cache chromium
 RUN yarn cache clean
 COPY . .
