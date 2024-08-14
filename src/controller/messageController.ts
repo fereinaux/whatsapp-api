@@ -201,6 +201,102 @@ export async function sendMessages(req: Request, res: Response) {
     returnError(req, res, error);
   }
 }
+export async function sendMessages(req: Request, res: Response) {
+  /**
+   * #swagger.tags = ["Messages"]
+     #swagger.autoBody=false
+     #swagger.security = [{
+            "bearerAuth": []
+     }]
+     #swagger.parameters["session"] = {
+      schema: 'NERDWHATS_AMERICA'
+     }
+     #swagger.requestBody = {
+        required: true,
+        "@content": {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                $phone: { type: "string" },
+                $isGroup: { type: "boolean" },
+                $message: { type: "string" }
+                $options: { type: "object" }
+              }
+            },
+            examples: {
+              "Default": {
+                value: {
+                  phone: '5521999999999',
+                  isGroup: false,
+                  message: 'Hello, welcome to WPPConnect'
+                  options: {
+                    linkPreview: {
+                      title: 'Another text',
+                      description: 'Another description'
+                    },
+                    markIsRead: true,
+                    mentionedList: [],
+                  },
+                },
+              },
+            },
+          }
+        }
+      }
+   */
+  const { messages } = req.body;
+
+  const options = req.body.options || {};
+
+  try {
+    const results: any = [];
+    for (const messageResult of messages) {
+      const numbers: any = [];
+      const localArr = contactToArray(messageResult.phone, false);
+      let index = 0;
+      for (const contact of localArr) {
+        if (req.body.isGroup) {
+          localArr[index] = contact;
+        } else if (numbers.indexOf(contact) < 0) {
+          const profile: any = await req.client
+            .checkNumberStatus(contact)
+            .catch((error) => console.log(error));
+          if (!profile?.numberExists) {
+            const num = (contact as any).split('@')[0];
+            return res.status(400).json({
+              response: {
+                error: 'notExists',
+                phone: num,
+                nome: req.body.name,
+              },
+              status: 'Connected',
+              message: `O número ${num} não existe.`,
+            });
+          } else {
+            if ((numbers as any).indexOf(profile.id._serialized) < 0) {
+              (numbers as any).push(profile.id._serialized);
+            }
+            (localArr as any)[index] = profile.id._serialized;
+          }
+        }
+        index++;
+      }
+      for (const contact of localArr) {
+        results.push(
+          await req.client.sendText(contact, messageResult.message, options)
+        );
+      }
+    }
+
+    if (results.length === 0)
+      return res.status(400).json('Error sending message');
+    req.io.emit('mensagem-enviada', results);
+    returnSucess(res, results);
+  } catch (error) {
+    returnError(req, res, error);
+  }
+}
 
 export async function editMessage(req: Request, res: Response) {
   /**
