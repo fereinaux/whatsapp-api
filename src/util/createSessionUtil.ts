@@ -15,6 +15,7 @@
  */
 import { create, SocketState } from '@wppconnect-team/wppconnect';
 import { Request } from 'express';
+import { cli } from 'winston/lib/winston/config';
 
 import { download } from '../controller/sessionController';
 import { WhatsAppServer } from '../types/WhatsAppServer';
@@ -124,7 +125,6 @@ export default class CreateSessionUtil {
           }
         )
       );
-      const wppClient = await create(teste);
 
       client = clientsArray[session] = Object.assign(wppClient, client);
       await this.start(req, client);

@@ -2,14 +2,14 @@ import { ServerOptions } from './types/ServerOptions';
 
 export default {
   secretKey: 'SysIgrejaToken',
-  host: 'https://api.iecbeventos.com.br/',
+  host: 'https://api.sysigreja.com/',
   port: '3500',
   deviceName: 'SysIgreja Whatsapp',
   poweredBy: 'SysIgreja',
   startAllSession: true,
   tokenStoreType: 'mongodb',
   maxListeners: 15,
-  customUserDataDir: '../userDataDir/',
+  customUserDataDir: './userDataDir/',
   webhook: {
     url: null,
     autoDownload: true,
