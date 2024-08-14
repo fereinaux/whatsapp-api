@@ -15,7 +15,6 @@
  */
 import { create, SocketState } from '@wppconnect-team/wppconnect';
 import { Request } from 'express';
-import { cli } from 'winston/lib/winston/config';
 
 import { download } from '../controller/sessionController';
 import { WhatsAppServer } from '../types/WhatsAppServer';
@@ -59,6 +58,8 @@ export default class CreateSessionUtil {
         req.serverOptions.createOptions.puppeteerOptions = {
           args: ['--no-sandbox'],
           headless: 'new',
+          executablePath:
+            '..\\node_modules\\chromium\\lib\\chromium\\chrome-win\\chrome.exe',
           userDataDir: req.serverOptions.customUserDataDir + session,
           ignoreHTTPSErrors: true,
           slowMo: 150,
