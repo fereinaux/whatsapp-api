@@ -1,10 +1,10 @@
-FROM node:lts-alpine as base
+FROM node:lts-alpine3.18 as base
 WORKDIR /usr/src/wpp-server
 ENV NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package.json ./
 RUN apk update && \
     apk add --no-cache \
-    apt-get update && \ 
+        apt-get update && \ 
     apt-get install -y build-essential \
     vips-dev \
     fftw-dev \
