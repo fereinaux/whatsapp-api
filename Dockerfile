@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 ubuntu:20.04 as base
+FROM node:18-slim AS base
 WORKDIR /usr/src/wpp-server
 ENV NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package.json ./
