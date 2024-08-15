@@ -4,17 +4,12 @@ ENV NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package.json ./
 RUN apk update && \
     apk add --no-cache \
---virtual build-dependencies \
-    build-base \
-    gcc \
-    wget \
-    git \
     vips-dev \
     fftw-dev \
     gcc \
     g++ \
     make \
-    libc6-compat \
+    gcompat \
     && rm -rf /var/cache/apk/*
 RUN yarn install --production --pure-lockfile && \
     yarn add sharp --ignore-engines && \
