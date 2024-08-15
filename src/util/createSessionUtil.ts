@@ -57,12 +57,13 @@ export default class CreateSessionUtil {
 
       if (req.serverOptions.customUserDataDir) {
         req.serverOptions.createOptions.puppeteerOptions = {
-          args: ['--no-sandbox'],
           executablePath: '/usr/bin/google-chrome',
           headless: 'new',
           userDataDir: req.serverOptions.customUserDataDir + session,
           ignoreHTTPSErrors: true,
           slowMo: 150,
+          ignoreDefaultArgs: ['--disable-extensions'],
+          args: ['--no-sandbox', '--disable-setuid-sandbox'],
         };
       }
 
