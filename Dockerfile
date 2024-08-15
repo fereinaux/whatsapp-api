@@ -19,8 +19,6 @@ WORKDIR /home/app
 
 COPY package.json /home/app/package.json
 
-COPY yarn.lock /home/app
-
 RUN yarn install --frozen-lockfile
 
 COPY . /home/app
