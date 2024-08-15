@@ -15,7 +15,7 @@
  */
 import { create, SocketState } from '@wppconnect-team/wppconnect';
 import { Request } from 'express';
-import * as PCR from 'puppeteer-chromium-resolver';
+import PCR from 'puppeteer-chromium-resolver';
 import { download } from '../controller/sessionController';
 import { WhatsAppServer } from '../types/WhatsAppServer';
 import chatWootClient from './chatWootClient';
