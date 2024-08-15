@@ -15,8 +15,7 @@
  */
 import { create, SocketState } from '@wppconnect-team/wppconnect';
 import { Request } from 'express';
-import { cli } from 'winston/lib/winston/config';
-
+import * as PCR from 'puppeteer-chromium-resolver';
 import { download } from '../controller/sessionController';
 import { WhatsAppServer } from '../types/WhatsAppServer';
 import chatWootClient from './chatWootClient';
@@ -41,6 +40,7 @@ export default class CreateSessionUtil {
     res?: any
   ) {
     try {
+      const stats = await PCR({});
       let client = this.getClient(session) as any;
       if (client.status != null && client.status !== 'CLOSED') return;
       client.status = 'INITIALIZING';
@@ -58,6 +58,7 @@ export default class CreateSessionUtil {
       if (req.serverOptions.customUserDataDir) {
         req.serverOptions.createOptions.puppeteerOptions = {
           userDataDir: req.serverOptions.customUserDataDir + session,
+          executablePath: stats.executablePath,
         };
       }
 
