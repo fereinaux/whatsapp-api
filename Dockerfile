@@ -4,8 +4,11 @@ ENV NODE_ENV=production PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 COPY package.json ./
 RUN apk update && \
     apk add --no-cache \
-        apt-get update && \ 
-    apt-get install -y build-essential \
+--virtual build-dependencies \
+    build-base \
+    gcc \
+    wget \
+    git \
     vips-dev \
     fftw-dev \
     gcc \
