@@ -204,7 +204,7 @@ export default class CreateSessionUtil {
     const imageBuffer = Buffer.from(qrCode, 'base64');
 
     req.io.emit('qrCode', {
-      data: 'data:image/png;base64,' + imageBuffer.toString('base64'),
+      data: imageBuffer.toString('base64'),
       session: client.session,
     });
 
