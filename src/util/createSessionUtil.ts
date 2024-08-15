@@ -22,6 +22,7 @@ import chatWootClient from './chatWootClient';
 import { autoDownload, callWebHook, startHelper } from './functions';
 import { clientsArray, eventEmitter } from './sessionUtil';
 import Factory from './tokenStore/factory';
+import QRCode from 'qrcode';
 
 export default class CreateSessionUtil {
   startChatWootClient(client: any) {
@@ -83,13 +84,13 @@ export default class CreateSessionUtil {
             catchLinkCode: (code: string) => {
               this.exportPhoneCode(req, client.config.phone, code, client, res);
             },
-            catchQR: (
+            catchQR: async (
               base64Qr: any,
               asciiQR: any,
               attempt: any,
               urlCode: string
             ) => {
-              this.exportQR(req, base64Qr, urlCode, client, res);
+              await this.exportQR(req, base64Qr, urlCode, client, res);
             },
             onLoadingScreen: (percent: string, message: string) => {
               req.logger.info(`[${session}] ${percent}% - ${message}`);
@@ -187,7 +188,7 @@ export default class CreateSessionUtil {
       });
   }
 
-  exportQR(
+  async exportQR(
     req: any,
     qrCode: any,
     urlCode: any,
@@ -208,7 +209,7 @@ export default class CreateSessionUtil {
 
     callWebHook(client, req, 'qrcode', {
       qrcode: qrCode,
-      urlcode: urlCode,
+      urlcode: await QRCode.toDataURL(client.urlcode),
       session: client.session,
     });
     if (res && !res._headerSent)
