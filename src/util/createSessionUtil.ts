@@ -124,27 +124,12 @@ export default class CreateSessionUtil {
 
       client = clientsArray[session] = Object.assign(wppClient, client);
       await this.start(req, client);
-
-      if (req.serverOptions.webhook.onParticipantsChanged) {
-        await this.onParticipantsChanged(req, client);
-      }
-
-      if (req.serverOptions.webhook.onReactionMessage) {
-        await this.onReactionMessage(client, req);
-      }
-
-      if (req.serverOptions.webhook.onRevokedMessage) {
-        await this.onRevokedMessage(client, req);
-      }
-
-      if (req.serverOptions.webhook.onPollResponse) {
-        await this.onPollResponse(client, req);
-      }
-      if (req.serverOptions.webhook.onLabelUpdated) {
-        await this.onLabelUpdated(client, req);
-      }
     } catch (e) {
       req.logger.error(e);
+      if (e instanceof Error && e.name == 'TimeoutError') {
+        const client = this.getClient(session) as any;
+        client.status = 'CLOSED';
+      }
     }
   }
 
