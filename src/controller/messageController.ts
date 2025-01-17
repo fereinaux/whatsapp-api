@@ -404,12 +404,13 @@ export async function sendImage(req: Request, res: Response) {
     const results: any = [];
     for (const contact of phone) {
       results.push(
-        await req.client.sendImage(contact, pathFile, {
-          filename: filename,
-          caption: msg,
-          quotedMsg: quotedMessageId,
-          ...options,
-        })
+        await req.client.sendImage(
+          contact,
+          pathFile,
+          filename,
+          msg,
+          quotedMessageId
+        )
       );
     }
 
