@@ -337,6 +337,91 @@ export async function sendFile(req: Request, res: Response) {
   }
 }
 
+export async function sendImage(req: Request, res: Response) {
+  /**
+   * #swagger.tags = ["Messages"]
+     #swagger.autoBody=false
+     #swagger.security = [{
+            "bearerAuth": []
+     }]
+     #swagger.parameters["session"] = {
+      schema: 'NERDWHATS_AMERICA'
+     }
+     #swagger.requestBody = {
+      required: true,
+      "@content": {
+        "application/json": {
+            schema: {
+                type: "object",
+                properties: {
+                    "phone": { type: "string" },
+                    "isGroup": { type: "boolean" },
+                    "isNewsletter": { type: "boolean" },
+                    "isLid": { type: "boolean" },
+                    "filename": { type: "string" },
+                    "caption": { type: "string" },
+                    "base64": { type: "string" }
+                }
+            },
+            examples: {
+                "Default": {
+                    value: {
+                        "phone": "5521999999999",
+                        "isGroup": false,
+                        "isNewsletter": false,
+                        "isLid": false,
+                        "filename": "file name lol",
+                        "caption": "caption for my file",
+                        "base64": "<base64> string"
+                    }
+                }
+            }
+        }
+      }
+    }
+   */
+  const {
+    phone,
+    path,
+    base64,
+    filename = 'file',
+    message,
+    caption,
+    quotedMessageId,
+  } = req.body;
+
+  const options = req.body.options || {};
+
+  if (!path && !req.file && !base64)
+    return res.status(401).send({
+      message: 'Sending the file is mandatory',
+    });
+
+  const pathFile = path || base64 || req.file?.path;
+  const msg = message || caption;
+
+  try {
+    const results: any = [];
+    for (const contact of phone) {
+      results.push(
+        await req.client.sendImage(contact, pathFile, {
+          filename: filename,
+          caption: msg,
+          quotedMsg: quotedMessageId,
+          ...options,
+        })
+      );
+    }
+
+    if (results.length === 0)
+      return res.status(400).json('Error sending message');
+    if (req.file) await unlinkAsync(pathFile);
+    returnSucess(res, results);
+  } catch (error) {
+    returnError(req, res, error);
+  }
+}
+
 export async function sendVoice(req: Request, res: Response) {
   /**
    * #swagger.tags = ["Messages"]

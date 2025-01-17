@@ -125,7 +125,7 @@ routes.post(
   upload.single('file'),
   verifyToken,
   statusConnection,
-  MessageController.sendFile
+  MessageController.sendImage
 );
 routes.post(
   '/api/:session/send-sticker',
