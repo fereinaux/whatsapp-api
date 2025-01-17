@@ -128,6 +128,12 @@ routes.post(
   MessageController.sendImage
 );
 routes.post(
+  '/api/:session/send-image-base64',
+  verifyToken,
+  statusConnection,
+  MessageController.sendImage64
+);
+routes.post(
   '/api/:session/send-sticker',
   upload.single('file'),
   verifyToken,

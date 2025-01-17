@@ -490,6 +490,64 @@ export async function sendVoice(req: Request, res: Response) {
   }
 }
 
+export async function sendImage64(req: Request, res: Response) {
+  /**
+   * #swagger.tags = ["Messages"]
+     #swagger.autoBody=false
+     #swagger.security = [{
+            "bearerAuth": []
+     }]
+     #swagger.parameters["session"] = {
+      schema: 'NERDWHATS_AMERICA'
+     }
+     #swagger.requestBody = {
+        required: true,
+        "@content": {
+            "application/json": {
+                schema: {
+                    type: "object",
+                    properties: {
+                        "phone": { type: "string" },
+                        "isGroup": { type: "boolean" },
+                        "base64Ptt": { type: "string" }
+                    }
+                },
+                examples: {
+                    "Default": {
+                        value: {
+                            "phone": "5521999999999",
+                            "isGroup": false,
+                            "base64Ptt": "<base64_string>"
+                        }
+                    }
+                }
+            }
+        }
+    }
+   */
+  const { phone, base64Ptt, quotedMessageId, caption } = req.body;
+
+  try {
+    const results: any = [];
+    for (const contato of phone) {
+      results.push(
+        await req.client.sendImageFromBase64(
+          contato,
+          base64Ptt,
+          '',
+          caption,
+          quotedMessageId
+        )
+      );
+    }
+
+    if (results.length === 0)
+      return res.status(400).json('Error sending message');
+    returnSucess(res, results);
+  } catch (error) {
+    returnError(req, res, error);
+  }
+}
 export async function sendVoice64(req: Request, res: Response) {
   /**
    * #swagger.tags = ["Messages"]
